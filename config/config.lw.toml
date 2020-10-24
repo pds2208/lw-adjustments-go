@@ -1,0 +1,15 @@
+logFormat = "Terminal" # one of: Text | Json | Terminal
+logLevel = "Debug" #	one of: "Info" # Trace | Info | Debug | Warn | Error | Fatal
+
+[database]
+# connections configuration
+server = "localhost" # set by environment variables
+user = "lw" # set by environment variables
+password = "lw" # set by environment variables
+database = "stock" # set by environment variables
+verbose = false
+
+    [database.connectionPool]
+        maxPoolSize = 2
+        maxIdleConnections = 2
+        maxLifetimeSeconds = 0
