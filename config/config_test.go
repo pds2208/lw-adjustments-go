@@ -31,7 +31,7 @@ func TestConfig(t *testing.T) {
 		t.Logf("database name %s\n", databaseName)
 	}
 
-	maxPoolsize := Config.Database.ConnectionPool.MaxPoolSize
+	maxPoolsize := Config.ConnectionPool.MaxPoolSize
 	if maxPoolsize != 2 {
 		t.Errorf("maxPoolsize = %d; want 2", maxPoolsize)
 	} else {

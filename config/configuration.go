@@ -1,9 +1,8 @@
 package config
 
-
 type configuration struct {
-	LogFormat     string
-	LogLevel      string
-	Database      DatabaseConfiguration
+	LogFormat      string
+	LogLevel       string
+	Database       DatabaseConfiguration
+	ConnectionPool ConnectionPool
 }
-

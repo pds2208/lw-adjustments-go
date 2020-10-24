@@ -6,7 +6,6 @@ import (
 	"time"
 	"upper.io/db.v3/lib/sqlbuilder"
 	"upper.io/db.v3/mysql"
-	"upper.io/db.v3/postgresql"
 )
 
 type Connection struct {
@@ -26,7 +25,7 @@ func (s *Connection) Connect() error {
 		Str("databaseName", config.Config.Database.Database).
 		Msg("Connecting to database")
 
-	sess, err := postgresql.Open(settings)
+	sess, err := mysql.Open(settings)
 
 	if err != nil {
 		log.Error().
@@ -46,9 +45,9 @@ func (s *Connection) Connect() error {
 
 	s.DB = sess
 
-	poolSize := config.Config.Database.ConnectionPool.MaxPoolSize
-	maxIdle := config.Config.Database.ConnectionPool.MaxIdleConnections
-	maxLifetime := config.Config.Database.ConnectionPool.MaxLifetimeSeconds
+	poolSize := config.Config.ConnectionPool.MaxPoolSize
+	maxIdle := config.Config.ConnectionPool.MaxIdleConnections
+	maxLifetime := config.Config.ConnectionPool.MaxLifetimeSeconds
 
 	if maxLifetime > 0 {
 		maxLifetime = maxLifetime * time.Second

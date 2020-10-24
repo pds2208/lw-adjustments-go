@@ -9,7 +9,7 @@ password = "lw" # set by environment variables
 database = "stock" # set by environment variables
 verbose = false
 
-    [database.connectionPool]
-        maxPoolSize = 2
-        maxIdleConnections = 2
-        maxLifetimeSeconds = 0
+[connectionPool]
+maxPoolSize = 2
+maxIdleConnections = 2
+maxLifetimeSeconds = 0

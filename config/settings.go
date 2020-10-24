@@ -15,7 +15,6 @@ import (
 
 var Config configuration
 
-
 func init() {
 	configFile, err := ioutil.ReadFile(fileName())
 
@@ -31,7 +30,7 @@ func init() {
 	}
 
 	// Parse environment variables
-	if err := env.Parse(&Config); err != nil {
+	if err := env.Parse(&Config.Database); err != nil {
 		log.Fatal(fmt.Errorf("cannot parse environment variables %+v", err))
 	}
 
@@ -79,7 +78,7 @@ func fileName() string {
 		runEnv = "lw"
 	}
 
-	filename := []string{"config.", runEnv, ".toml"}
+	filename := []string{"Config.", runEnv, ".toml"}
 	_, dirname, _, _ := runtime.Caller(0)
 	filePath := path.Join(filepath.Dir(dirname), strings.Join(filename, ""))
 

@@ -18,8 +18,17 @@ func init() {
 //SyncAdjustments
 func SyncAdjustments() {
 
+	log.Debug().
+		Msg("sync adjustments")
 	for {
 		adjustments, err := getAdjustments()
+		log.Debug().
+			Int("#adustments", len(adjustments)).
+			Msg("adjustments found")
+		if err != nil {
+			log.Err(err).
+				Msg("cannot get attributes")
+		}
 		if err == nil && len(adjustments) > 0 {
 			for i := 0; i < len(adjustments); i++ {
 				if err := updateSage(adjustments[i]); err != nil {
@@ -35,7 +44,9 @@ func SyncAdjustments() {
 }
 
 func updateSage(adjustment types.Adjustments) error {
-
+	log.Info().
+		Str("adjustment", adjustment.StockCode).
+		Msg("updating Sage")
 	return nil
 }
 
