@@ -2,12 +2,10 @@ package mysql
 
 import (
 	"lw-adjustments/types"
-	"upper.io/db.v3"
 )
 
 func (s *Connection) GetAdjustments() ([]types.Adjustments, error) {
-	col := s.DB.Collection("adjustments")
-	res := col.Find(db.Cond{"sage_updated": 0})
+	res := s.DB.Collection("adjustments").Find()
 
 	var adjustments []types.Adjustments
 	err := res.All(&adjustments)

@@ -1,5 +1,5 @@
 logFormat = "Terminal" # one of: Text | Json | Terminal
-logLevel = "Debug" #	one of: "Info" # Trace | Info | Debug | Warn | Error | Fatal
+logLevel = "Info" #	one of: "Info" # Trace | Info | Debug | Warn | Error | Fatal
 sleepPeriod = 10 # sleep period in seconds
 
 [database]

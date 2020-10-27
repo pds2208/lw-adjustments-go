@@ -3,6 +3,14 @@ package config
 import "testing"
 
 func TestConfig(t *testing.T) {
+
+	sleep := Config.SleepPeriod
+	if sleep != 10 {
+		t.Errorf("sleep = %d; want 10", sleep)
+	} else {
+		t.Logf("Sleep %d\n", sleep)
+	}
+
 	server := Config.Database.Server
 	if server != "localhost" {
 		t.Errorf("server = %s; want localhost", server)

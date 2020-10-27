@@ -21,17 +21,16 @@ func main() {
 	// Command line flag overrides the configuration file
 	debug := flag.Bool("debug", false, "sets log level to debug")
 
+	log.Info().Msg("Lewis & Wood Adjustments: Starting up...")
+
 	flag.Parse()
 	if *debug || config.Config.LogLevel == "Debug" {
+		log.Info().Msg("Debug mode set")
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	} else {
 		zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	}
 
-	log.Info().
-		Str("startTime", time.Now().String()).
-		Msg("Lewis & Wood Adjustments: Starting up")
-
 	// loop forever
-	services.SyncAdjustments()
+	services.NewAdjustmentService().SyncAdjustments()
 }
