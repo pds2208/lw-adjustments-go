@@ -78,7 +78,7 @@ func fileName() string {
 		runEnv = "lw"
 	}
 
-	filename := []string{"Config.", runEnv, ".toml"}
+	filename := []string{"config.", runEnv, ".toml"}
 	_, dirname, _, _ := runtime.Caller(0)
 	filePath := path.Join(filepath.Dir(dirname), strings.Join(filename, ""))
 
