@@ -26,7 +26,7 @@ func (as AdjustmentService) SyncAdjustments() {
 	for {
 		adjustments, err := as.getAdjustments()
 		log.Debug().
-			Int("#adustments", len(adjustments)).
+			Int("adjustments", len(adjustments)).
 			Msg("adjustments found")
 
 		if err != nil {
