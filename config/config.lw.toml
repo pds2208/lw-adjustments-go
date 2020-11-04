@@ -14,3 +14,7 @@ verbose = false
 maxPoolSize = 2
 maxIdleConnections = 2
 maxLifetimeSeconds = 0
+
+[sage]
+endpoint = "https://api.hypersage.co.uk:26009/api"
+productEndpoint = "/product/"

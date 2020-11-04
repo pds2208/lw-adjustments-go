@@ -47,6 +47,17 @@ func (as AdjustmentService) SyncAdjustments() {
 
 }
 
+func (as AdjustmentService) addAdjustment(adjustment types.Adjustments) {
+
+	// Firstly we get the current sage quantity
+	//qty, error := as.sage.getProductQuantity(adjustment.StockCode)
+
+	if err := as.sage.addAdjustment(adjustment); err != nil {
+		_ = as.deleteAdjustment(adjustment.Id)
+	}
+
+}
+
 func (as AdjustmentService) deleteAdjustment(id int) error {
 	dbase, err := db.GetDefaultPersistenceImpl()
 	if err != nil {

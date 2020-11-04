@@ -6,4 +6,5 @@ type configuration struct {
 	SleepPeriod    int
 	Database       DatabaseConfiguration
 	ConnectionPool ConnectionPool
+	Sage           Sage
 }
