@@ -21,7 +21,7 @@ func main() {
 	// Command line flag overrides the configuration file
 	debug := flag.Bool("debug", false, "sets log level to debug")
 
-	log.Info().Msg("Lewis & Wood Adjustments: Starting up...")
+	log.Info().Msg("Lewis & Wood Adjustments")
 
 	flag.Parse()
 	if *debug || config.Config.LogLevel == "Debug" {

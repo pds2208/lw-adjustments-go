@@ -1,6 +1,7 @@
 package services
 
 import (
+	"crypto/tls"
 	"github.com/go-resty/resty/v2"
 	"github.com/rs/zerolog/log"
 	"lw-adjustments/config"
@@ -16,7 +17,8 @@ func NewSage() Sage {
 	client := resty.New()
 	client.SetRedirectPolicy(resty.FlexibleRedirectPolicy(15))
 	client.SetRetryCount(3)
-	client.Header["AuthToken"] = []string{"hwytrwqvf262vsz9"}
+	client.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true})
+	client.Header["AuthToken"] = []string{config.Config.Sage.AuthToken}
 	client.SetTimeout(15 * time.Second)
 	return Sage{client: client}
 }
@@ -36,24 +38,24 @@ func (sage Sage) GetProductDetail(product string) (types.ProductResponse, error)
 	var productResponse types.ProductResponse
 	var endpoint = config.Config.Sage.Endpoint + config.Config.Sage.ProductEndpoint + product
 
-	_, err := sage.client.R().
+	resp, err := sage.client.R().
 		SetResult(&productResponse).
 		Get(endpoint)
 
 	if err == nil {
+		log.Debug().
+			Str("  Error      :", err.Error()).
+			Int("  Status Code:", resp.StatusCode()).
+			Str("  Status     :", resp.Status()).
+			Str("  Proto      :", resp.Proto()).
+			Str("  Time      :", resp.Time().String()).
+			Str("  Received At:", resp.ReceivedAt().String()).
+			Str("  Body:", string(resp.Body())).
+			Msg("Response Info:")
+
 		return productResponse, nil
 	}
 
 	return types.ProductResponse{}, err
-
-	//fmt.Println("Response Info:")
-	//fmt.Println("  Error      :", err)
-	//fmt.Println("  Status Code:", resp.StatusCode())
-	//fmt.Println("  Status     :", resp.Status())
-	//fmt.Println("  Proto      :", resp.Proto())
-	//fmt.Println("  Time       :", resp.Time())
-	//fmt.Println("  Received At:", resp.ReceivedAt())
-	//fmt.Println("  Body       :\n", resp)
-	//fmt.Println()
 
 }

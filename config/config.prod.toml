@@ -11,8 +11,8 @@ database = "stock" # set by environment variables
 verbose = false
 
 [connectionPool]
-maxPoolSize = 2
-maxIdleConnections = 2
+maxPoolSize = 1
+maxIdleConnections = 1
 maxLifetimeSeconds = 0
 
 [sage]

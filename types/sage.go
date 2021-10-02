@@ -12,6 +12,7 @@ type Product struct {
 	QtyAllocated float64 `json:"qtyAllocated"`
 	QtyInStock   float64 `json:"qtyInStock"`
 }
+
 type ProductResponse struct {
 	Success  bool `json:"success"`
 	Code     int  `json:"code"`

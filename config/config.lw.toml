@@ -11,10 +11,11 @@ database = "stock" # set by environment variables
 verbose = false
 
 [connectionPool]
-maxPoolSize = 2
-maxIdleConnections = 2
+maxPoolSize = 1
+maxIdleConnections = 1
 maxLifetimeSeconds = 0
 
 [sage]
-endpoint = "https://api.hypersage.co.uk:26009/api"
+endpoint = "https://157.231.105.106:40027/api"
+authToken="ngEXJVHb4mHYvr2tuNTsjBNz"
 productEndpoint = "/product/"

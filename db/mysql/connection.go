@@ -22,22 +22,22 @@ func (s *Connection) Connect() error {
 	}
 
 	log.Debug().
-		Str("databaseName", config.Config.Database.Database).
-		Msg("Connecting to database")
+		Str("db", config.Config.Database.Database).
+		Msg("Connecting to database,")
 
 	sess, err := mysql.Open(settings)
 
 	if err != nil {
 		log.Error().
 			Err(err).
-			Str("databaseName", config.Config.Database.Database).
+			Str("db", config.Config.Database.Database).
 			Msg("Cannot connect to database")
 		return err
 	}
 
 	log.Debug().
-		Str("databaseName", config.Config.Database.Database).
-		Msg("Connected to database")
+		Str("db", config.Config.Database.Database).
+		Msg("Database Connected")
 
 	if config.Config.Database.Verbose {
 		sess.SetLogging(true)
@@ -58,7 +58,7 @@ func (s *Connection) Connect() error {
 		Int("MaxPoolSize", poolSize).
 		Int("MaxIdleConnections", maxIdle).
 		Dur("MaxLifetime", maxLifetime*time.Second).
-		Msg("Connection Attributes")
+		Msg("Connection Attributes:")
 
 	sess.SetMaxOpenConns(poolSize)
 	sess.SetMaxIdleConns(maxIdle)

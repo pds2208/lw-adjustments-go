@@ -18,25 +18,23 @@ func NewAdjustmentService() AdjustmentService {
 	return AdjustmentService{NewSage(), config.Config.SleepPeriod}
 }
 
-//SyncAdjustments
 func (as AdjustmentService) SyncAdjustments() {
 
-	log.Debug().Msg("sync adjustments")
+	log.Debug().Msg("Sync adjustments")
 
 	for {
 		adjustments, err := as.getAdjustments()
-		log.Debug().
-			Int("adjustments", len(adjustments)).
-			Msg("adjustments found")
 
 		if err != nil {
-			log.Err(err).Msg("cannot get adjustments")
-		}
-
-		if err == nil && len(adjustments) > 0 {
-			for i := 0; i < len(adjustments); i++ {
-				if err := as.sage.addAdjustment(adjustments[i]); err != nil {
-					_ = as.deleteAdjustment(adjustments[i].Id)
+			log.Err(err).Msg("Cannot get adjustments")
+		} else if len(adjustments) == 0 {
+			log.Debug().Msg("No outstanding adjustments")
+		} else {
+			if err == nil && len(adjustments) > 0 {
+				for i := 0; i < len(adjustments); i++ {
+					if err := as.sage.addAdjustment(adjustments[i]); err != nil {
+						_ = as.deleteAdjustment(adjustments[i].Id)
+					}
 				}
 			}
 		}
@@ -60,6 +58,7 @@ func (as AdjustmentService) addAdjustment(adjustment types.Adjustments) {
 
 func (as AdjustmentService) deleteAdjustment(id int) error {
 	dbase, err := db.GetDefaultPersistenceImpl()
+
 	if err != nil {
 		log.Error().Err(err)
 		return err
@@ -71,6 +70,7 @@ func (as AdjustmentService) deleteAdjustment(id int) error {
 
 func (as AdjustmentService) getAdjustments() ([]types.Adjustments, error) {
 	dbase, err := db.GetDefaultPersistenceImpl()
+
 	if err != nil {
 		log.Error().Err(err)
 		return nil, err

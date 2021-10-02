@@ -25,8 +25,8 @@ func GetDefaultPersistenceImpl() (Persistence, error) {
 	defer connectionMux.Unlock()
 
 	if cachedConnection != nil {
-		log.Info().
-			Str("databaseName", config.Config.Database.Database).
+		log.Debug().
+			Str("database", config.Config.Database.Database).
 			Msg("Returning cached database connection")
 		return cachedConnection, nil
 	}
@@ -36,7 +36,7 @@ func GetDefaultPersistenceImpl() (Persistence, error) {
 	if err := cachedConnection.Connect(); err != nil {
 		log.Info().
 			Err(err).
-			Str("databaseName", config.Config.Database.Database).
+			Str("database", config.Config.Database.Database).
 			Msg("Cannot connect to database")
 		cachedConnection = nil
 		return nil, fmt.Errorf("cannot connect to database")
