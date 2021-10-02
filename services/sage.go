@@ -1,7 +1,9 @@
 package services
 
 import (
+	"bytes"
 	"crypto/tls"
+	"encoding/json"
 	"github.com/go-resty/resty/v2"
 	"github.com/rs/zerolog/log"
 	"lw-adjustments/config"
@@ -43,19 +45,32 @@ func (sage Sage) GetProductDetail(product string) (types.ProductResponse, error)
 		Get(endpoint)
 
 	if err == nil {
+		a, _ := formatJSON(resp.Body())
 		log.Debug().
-			Str("  Error      :", err.Error()).
-			Int("  Status Code:", resp.StatusCode()).
-			Str("  Status     :", resp.Status()).
-			Str("  Proto      :", resp.Proto()).
-			Str("  Time      :", resp.Time().String()).
-			Str("  Received At:", resp.ReceivedAt().String()).
-			Str("  Body:", string(resp.Body())).
-			Msg("Response Info:")
+			Int("Status Code", resp.StatusCode()).Msg("")
+		log.Debug().
+			Str("HTTP Status", resp.Status()).Msg("")
+		log.Debug().
+			Str("Proto", resp.Proto()).Msg("")
+		log.Debug().
+			Str("Time", resp.Time().String()).Msg("")
+		log.Debug().
+			Str("Received At", resp.ReceivedAt().String()).Msg("")
+		log.Debug().
+			Msg(string(a))
 
 		return productResponse, nil
 	}
 
 	return types.ProductResponse{}, err
 
+}
+
+func formatJSON(data []byte) ([]byte, error) {
+	var out bytes.Buffer
+	err := json.Indent(&out, data, "", "    ")
+	if err == nil {
+		return out.Bytes(), err
+	}
+	return data, nil
 }
