@@ -25,9 +25,6 @@ func GetDefaultPersistenceImpl() (Persistence, error) {
 	defer connectionMux.Unlock()
 
 	if cachedConnection != nil {
-		log.Debug().
-			Str("database", config.Config.Database.Database).
-			Msg("Returning cached database connection")
 		return cachedConnection, nil
 	}
 

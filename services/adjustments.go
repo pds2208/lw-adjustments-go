@@ -12,10 +12,11 @@ import (
 type AdjustmentService struct {
 	sage  Sage
 	sleep int
+	db    db.Persistence
 }
 
-func NewAdjustmentService() AdjustmentService {
-	return AdjustmentService{NewSage(), config.Config.SleepPeriod}
+func NewAdjustmentService(db db.Persistence) AdjustmentService {
+	return AdjustmentService{NewSage(), config.Config.SleepPeriod, db}
 }
 
 func (as AdjustmentService) SyncAdjustments() {
@@ -31,6 +32,7 @@ func (as AdjustmentService) SyncAdjustments() {
 			log.Debug().Msg("No outstanding adjustments")
 		} else {
 			if err == nil && len(adjustments) > 0 {
+				log.Debug().Msg(fmt.Sprintf("%v adjustments to process", len(adjustments)))
 				for i := 0; i < len(adjustments); i++ {
 					if err := as.sage.addAdjustment(adjustments[i]); err != nil {
 						_ = as.deleteAdjustment(adjustments[i].Id)
@@ -57,26 +59,11 @@ func (as AdjustmentService) addAdjustment(adjustment types.Adjustments) {
 }
 
 func (as AdjustmentService) deleteAdjustment(id int) error {
-	dbase, err := db.GetDefaultPersistenceImpl()
-
-	if err != nil {
-		log.Error().Err(err)
-		return err
-	}
-
-	return dbase.DeleteAdjustment(id)
-
+	return as.db.DeleteAdjustment(id)
 }
 
 func (as AdjustmentService) getAdjustments() ([]types.Adjustments, error) {
-	dbase, err := db.GetDefaultPersistenceImpl()
-
-	if err != nil {
-		log.Error().Err(err)
-		return nil, err
-	}
-
-	adj, err := dbase.GetAdjustments()
+	adj, err := as.db.GetAdjustments()
 
 	if err != nil {
 		return nil, fmt.Errorf("cannot read from the adjustments table")

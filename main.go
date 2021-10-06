@@ -5,6 +5,7 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"lw-adjustments/config"
+	"lw-adjustments/db"
 	"lw-adjustments/services"
 	"os"
 	"time"
@@ -24,6 +25,7 @@ func main() {
 	log.Info().Msg("Lewis & Wood Adjustments")
 
 	flag.Parse()
+
 	if *debug || config.Config.LogLevel == "Debug" {
 		log.Info().Msg("Debug mode set")
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
@@ -31,6 +33,13 @@ func main() {
 		zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	}
 
+	dbase, err := db.GetDefaultPersistenceImpl()
+
+	if err != nil {
+		log.Error().Err(err)
+		os.Exit(1)
+	}
+
 	// loop forever
-	services.NewAdjustmentService().SyncAdjustments()
+	services.NewAdjustmentService(dbase).SyncAdjustments()
 }
