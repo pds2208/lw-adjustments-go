@@ -41,5 +41,6 @@ func main() {
 	}
 
 	// loop forever
-	services.NewAdjustmentService(dbase).SyncAdjustments()
+	services.NewAdjustmentService(dbase).
+		SyncAdjustments()
 }

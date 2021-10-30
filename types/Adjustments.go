@@ -1,18 +1,20 @@
 package types
 
-import "time"
+import (
+	"time"
+)
 
 type Adjustments struct {
-	Id             int       `db:"id"`
-	AdjustmentType string    `db:"adjustment_type"`
-	Amount         float64   `db:"amount"`
-	StockCode      string    `db:"stock_code"`
-	AdjustmentDate time.Time `db:"adjustment_date"`
-	Batch          string    `db:"batch"`
-	SageUpdated    bool      `db:"sage_updated"`
-	InsertedAt     time.Time `db:"inserted_at"`
-	NumRetries     int       `db:"num_retries"`
-	UpdatesPaused  bool      `db:"updates_paused"`
-	PausedTime     time.Time `db:"paused_time"`
-	Reference      string    `db:"reference_text"`
+	Id             int        `db:"id,omitempty"`
+	AdjustmentType string     `db:"adjustment_type"`
+	Amount         float64    `db:"amount"`
+	StockCode      string     `db:"stock_code"`
+	AdjustmentDate *time.Time `db:"adjustment_date"`
+	Batch          string     `db:"batch"`
+	SageUpdated    *bool      `db:"sage_updated"`
+	InsertedAt     *time.Time `db:"inserted_at"`
+	NumRetries     int        `db:"num_retries"`
+	UpdatesPaused  *bool      `db:"updates_paused"`
+	PausedTime     *time.Time `db:"paused_time"`
+	Reference      string     `db:"reference_text"`
 }

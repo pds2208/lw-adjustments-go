@@ -15,10 +15,10 @@ type Connection struct {
 func (s *Connection) Connect() error {
 
 	var settings = mysql.ConnectionURL{
-		Database: config.Config.Database.Database,
-		Host:     config.Config.Database.Server,
 		User:     config.Config.Database.User,
 		Password: config.Config.Database.Password,
+		Database: config.Config.Database.Database,
+		Host:     config.Config.Database.Server,
 	}
 
 	log.Debug().
