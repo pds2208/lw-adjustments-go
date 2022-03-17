@@ -13,6 +13,7 @@ type Adjustments struct {
 	Batch          string     `db:"batch"`
 	SageUpdated    *bool      `db:"sage_updated"`
 	InsertedAt     *time.Time `db:"inserted_at"`
+	SageUpdatedAt  *time.Time `db:"sage_updated_at"`
 	NumRetries     int        `db:"num_retries"`
 	UpdatesPaused  *bool      `db:"updates_paused"`
 	PausedTime     *time.Time `db:"paused_time"`

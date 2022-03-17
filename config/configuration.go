@@ -7,4 +7,5 @@ type configuration struct {
 	Database       DatabaseConfiguration
 	ConnectionPool ConnectionPool
 	Sage           Sage
+	Service        ServiceConfiguration
 }

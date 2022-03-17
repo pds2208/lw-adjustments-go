@@ -45,4 +45,12 @@ func TestConfig(t *testing.T) {
 	} else {
 		t.Logf("maxPoolsize %d\n", maxPoolsize)
 	}
+
+	listenAddress := Config.Service.ListenAddress
+	if listenAddress != ":8000" {
+		t.Errorf("listenAddress = %s; want :8000", listenAddress)
+	} else {
+		t.Logf("listenAddress %s\n", listenAddress)
+	}
+
 }

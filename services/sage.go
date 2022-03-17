@@ -15,6 +15,9 @@ type Sage struct {
 	client *resty.Client
 }
 
+const AdjustmentIn = "adj_in"
+const AdjustmentOut = "adj_out"
+
 func NewSage() Sage {
 	client := resty.New()
 	client.SetRedirectPolicy(resty.FlexibleRedirectPolicy(15))
@@ -32,6 +35,20 @@ func (sage Sage) addAdjustment(adjustment types.Adjustments) error {
 		Float64("amount", adjustment.Amount).
 		Msg("updating Sage...")
 
+	switch adjustment.AdjustmentType {
+	case AdjustmentIn:
+		return sage.AddAdjustmentIn(adjustment)
+	case AdjustmentOut:
+		return sage.AddAdjustmentOut(adjustment)
+	}
+	return nil
+}
+
+func (sage Sage) AddAdjustmentIn(adjustment types.Adjustments) error {
+	return nil
+}
+
+func (sage Sage) AddAdjustmentOut(adjustment types.Adjustments) error {
 	return nil
 }
 
@@ -63,7 +80,6 @@ func (sage Sage) GetProductDetail(product string) (types.ProductResponse, error)
 	}
 
 	return types.ProductResponse{}, err
-
 }
 
 func formatJSON(data []byte) ([]byte, error) {

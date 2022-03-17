@@ -18,3 +18,9 @@ maxLifetimeSeconds = 0
 [sage]
 endpoint = "https://api.hypersage.co.uk:26009/api"
 productEndpoint = "/product/"
+
+[service]
+
+listenAddress = ":8000"
+readTimeout = "60s"
+writeTimeout = "60s"

@@ -11,11 +11,17 @@ database = "stock" # set by environment variables
 verbose = false
 
 [connectionPool]
-maxPoolSize = 1
+maxPoolSize = 2
 maxIdleConnections = 1
 maxLifetimeSeconds = 0
 
 [sage]
 endpoint = "https://157.231.105.106:40027/api"
-authToken="ngEXJVHb4mHYvr2tuNTsjBNz"
+authToken = "ngEXJVHb4mHYvr2tuNTsjBNz"
 productEndpoint = "/product/"
+
+[service]
+
+listenAddress = ":8000"
+readTimeout = "60s"
+writeTimeout = "60s"
