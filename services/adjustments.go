@@ -24,25 +24,15 @@ func (as AdjustmentService) SyncAdjustments() {
 	log.Debug().Msg("Sync adjustments")
 
 	for {
-		adjustments, err := as.getAdjustments()
-
-		if err != nil {
-			log.Err(err).Msg("Cannot get adjustments")
-		} else if len(adjustments) == 0 {
-			log.Debug().Msg("No outstanding adjustments")
-		} else {
-			if err == nil && len(adjustments) > 0 {
-				log.Debug().Msg(fmt.Sprintf("%v adjustments to process", len(adjustments)))
-				for i := 0; i < len(adjustments); i++ {
-					if err := as.sage.addAdjustment(adjustments[i]); err != nil {
-						_ = as.deleteAdjustment(adjustments[i].Id)
-					}
+		if adjustments := as.getAdjustments(); adjustments != nil {
+			log.Debug().Msg(fmt.Sprintf("%v adjustments to process", len(adjustments)))
+			for _, adjustment := range adjustments {
+				if err := as.sage.addAdjustment(adjustment); err != nil {
+					_ = as.deleteAdjustment(adjustment.Id)
 				}
 			}
 		}
-
 		time.Sleep(time.Duration(as.sleep) * time.Second)
-
 	}
 
 }
@@ -62,13 +52,18 @@ func (as AdjustmentService) deleteAdjustment(id int) error {
 	return as.db.DeleteAdjustment(id)
 }
 
-func (as AdjustmentService) getAdjustments() ([]types.Adjustments, error) {
+func (as AdjustmentService) getAdjustments() []types.Adjustments {
 	adj, err := as.db.GetAdjustments()
-
 	if err != nil {
-		return nil, fmt.Errorf("cannot read from the adjustments table")
+		log.Err(err).Msg("cannot read from the adjustments table")
+		return nil
 	}
 
-	return adj, nil
+	if len(adj) == 0 {
+		log.Debug().Msg("No outstanding adjustments")
+		return nil
+	}
+
+	return adj
 
 }

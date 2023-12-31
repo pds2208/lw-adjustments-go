@@ -2,14 +2,16 @@ package mysql
 
 import (
 	"github.com/rs/zerolog/log"
+	"github.com/upper/db/v4"
+	"github.com/upper/db/v4/adapter/mysql"
+	"log/slog"
 	"lw-adjustments/config"
+	"os"
 	"time"
-	"upper.io/db.v3/lib/sqlbuilder"
-	"upper.io/db.v3/mysql"
 )
 
 type Connection struct {
-	DB sqlbuilder.Database
+	DB db.Session
 }
 
 func (s *Connection) Connect() error {
@@ -39,8 +41,10 @@ func (s *Connection) Connect() error {
 		Str("db", config.Config.Database.Database).
 		Msg("Database Connected")
 
+	handler := slog.NewTextHandler(os.Stdout, nil)
 	if config.Config.Database.Verbose {
-		sess.SetLogging(true)
+		logger := slog.NewLogLogger(handler, slog.LevelDebug)
+		db.LC().SetLogger(logger)
 	}
 
 	s.DB = sess
@@ -66,7 +70,7 @@ func (s *Connection) Connect() error {
 	return nil
 }
 
-func (s Connection) Close() {
+func (s *Connection) Close() {
 	if s.DB != nil {
 		_ = s.DB.Close()
 	}

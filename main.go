@@ -96,5 +96,4 @@ func main() {
 		Err(err).
 		Str("service", "LW").
 		Msgf("ListenAndServe failed")
-
 }

@@ -1,8 +1,8 @@
 package mysql
 
 import (
+	"github.com/upper/db/v4"
 	"lw-adjustments/types"
-	"upper.io/db.v3"
 )
 
 func (s *Connection) GetAdjustments() ([]types.Adjustments, error) {
